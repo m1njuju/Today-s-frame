@@ -1,12 +1,46 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
+    <v-app>
+      <!-- 상단 툴바 -->
+            <AppToolbar />
+
+            <!-- 메인 섹션 -->
+            <v-main>
+                <MainList />
+
+                    <!-- 일기 작성칸 -->
+                    <v-container>
+                        <WriteField />
+                    </v-container>
+            </v-main>
+
+
+            <!-- 푸터 영역 -->
+            <v-footer color="info lighten-2" dark>
+                <div class="mx-auto">
+                    <small>Copyright &copy; 2022 송민주. m1njuju , Ltd. All Rights Reserved</small>
+                </div>
+            </v-footer>
+    </v-app>
     <router-view/>
   </div>
 </template>
+
+<script>
+import AppToolbar from './components/AppToolbar.vue'
+import MainList from './components/MainList.vue'
+import WriteField from './components/WriteField.vue'
+
+
+export default {
+  name:'App',
+  components: {
+    AppToolbar,
+    MainList,
+    WriteField
+  },
+}
+</script>
 
 <style>
 #app {
