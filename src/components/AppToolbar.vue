@@ -1,12 +1,17 @@
 <template>
     <div>
     <!-- 상단 툴바 -->
-        <v-app-bar app color="info lighten-2" dark>
+        <v-app-bar app color="info lighten-2" dark class="mb-10">
             <v-app-bar-nav-icon @click="ndrawer = true"></v-app-bar-nav-icon>
-            <v-toolbar-title >오늘의 프레임</v-toolbar-title>
+            <v-toolbar-title >Today's Frame</v-toolbar-title>
 
             <v-spacer></v-spacer>
 
+            <v-toolbar-title v-model="user"
+            v-if="login" class="caption">{{user}}님 환영합니다</v-toolbar-title>
+
+        <div v-if="login">
+            
 
             <!-- 날짜 선택으로 검색할 수 있게 -->
 
@@ -70,6 +75,13 @@
                 </v-list-item>
                 </v-list>
             </v-menu>
+        </div>
+            
+            <!-- 로그인 버튼 -->
+            <v-btn icon v-else @click="$router.push('/login')">
+                <v-icon>mdi-login</v-icon>
+            </v-btn>
+
             </v-app-bar>
 
             
@@ -84,8 +96,8 @@
                             </v-list-item-avatar>
 
                             <v-list-item-content>
-                                <v-list-item-title> 닉네임 </v-list-item-title>
-                                <v-list-item-subtitle> 아이디 </v-list-item-subtitle>
+                                <v-list-item-title> {{user}} </v-list-item-title>
+                                <v-list-item-subtitle> {{new Date().toLocaleString()}} </v-list-item-subtitle>
                             </v-list-item-content>
                         </v-list-item>
                     </v-list>
@@ -116,10 +128,12 @@ export default {
     name: 'AppToolbar',
     data: function(){
         return {
+            user: '',
+            login: false,
             ndrawer: false,
             items: [
                 { title: '설정' },
-                { title: '로그인' },
+                { title: '로그아웃' },
                 { title: 'Click Me' },
                 { title: 'Click Me 2' },
             ],
@@ -155,13 +169,18 @@ export default {
             return d.toISOString().substr(0, 10)
         })
     },
+    created() {
+        this.$EventBus.$on('login-user', (user) => {
+        this.user = user;
+        this.login = true;
+        })
+    },  
     methods: {
         addWrite () {
             this.dialog=true;
             this.$EventBus.$emit('click');
         },
         toggleShow () {
-            this.show= !this.show;
             this.toggle= !this.toggle;
             this.$EventBus.$emit('toggle')
         },

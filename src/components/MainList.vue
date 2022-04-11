@@ -135,6 +135,13 @@ export default {
             iconIndex: 0,
             message_todo: '',
             message_meal: '',
+            tags: [
+                    'mdi-emoticon-excited-outline',
+                    'mdi-emoticon-happy-outline',
+                    'mdi-emoticon-neutral-outline',
+                    'mdi-emoticon-sad-outline',
+                    'mdi-emoticon-angry-outline',
+                ],
         }
     },
     created () {

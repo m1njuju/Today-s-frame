@@ -5,7 +5,7 @@ import vuetify from './plugins/vuetify'
 
 Vue.config.productionTip = false
 
-Vue.prototype.$bus = new Vue()
+Vue.prototype.$EventBus = new Vue();
 
 new Vue({
   router,
