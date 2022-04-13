@@ -3,7 +3,11 @@
     <!-- 상단 툴바 -->
         <v-app-bar app color="info lighten-2" dark class="mb-10">
             <v-app-bar-nav-icon @click="ndrawer = true"></v-app-bar-nav-icon>
-            <v-toolbar-title >Today's Frame</v-toolbar-title>
+            <a>
+                <v-toolbar-title @click="$router.push('/')"
+                class="headline white--text"
+                >Today's Frame</v-toolbar-title>
+            </a>
 
             <v-spacer></v-spacer>
 
@@ -11,8 +15,6 @@
             v-if="login" class="caption">{{user}}님 환영합니다</v-toolbar-title>
 
         <div v-if="login">
-            
-
             <!-- 날짜 선택으로 검색할 수 있게 -->
 
             <v-menu bottom left :close-on-content-click="closeOnContentClick"
@@ -49,7 +51,6 @@
                 </v-btn>
 
 
-
                 <!-- 설정 버튼 -->
                 <v-menu
                 bottom
@@ -67,12 +68,13 @@
                 </template>
 
                 <v-list>
-                <v-list-item
+                    <v-list-item
                     v-for="(item, i) in items"
                     :key="i"
-                >
-                    <v-list-item-title>{{ item.title }}</v-list-item-title>
-                </v-list-item>
+                    :to="item.to"
+                    >
+                        <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    </v-list-item>
                 </v-list>
             </v-menu>
         </div>
@@ -87,16 +89,17 @@
             
 
             <!--내비게이션 서랍 시작 -->
-            <v-navigation-drawer absolute temporary v-model="ndrawer">
+            <v-navigation-drawer absolute temporary v-model="ndrawer"
+            class="pr-2">
                 <v-toolbar flat>
-                    <v-list>
-                        <v-list-item>
+                    <v-list v-model="user">
+                        <v-list-item >
                             <v-list-item-avatar>
                                 <v-icon class="grey white--text">mdi-account</v-icon>
                             </v-list-item-avatar>
 
                             <v-list-item-content>
-                                <v-list-item-title> {{user}} </v-list-item-title>
+                                <v-list-item-title > {{user}} </v-list-item-title>
                                 <v-list-item-subtitle> {{new Date().toLocaleString()}} </v-list-item-subtitle>
                             </v-list-item-content>
                         </v-list-item>
@@ -105,9 +108,10 @@
 
                 <v-divider></v-divider>
                 <!-- 내비게이션 서랍 메뉴 리스트 -->
-                <v-list>
-                    <a>
-                        <v-list-item v-for="(menu,i) in menuList" :key="i">
+                <v-list v-model="user">
+                    <v-list-item
+                    v-for="(menu,i) in menuList" :key="i"
+                    :to="menu.to">
                         <v-list-item-action>
                             <v-icon>{{menu.icon}}</v-icon>
                         </v-list-item-action>
@@ -116,8 +120,6 @@
                             <v-list-item-title>{{menu.title}}</v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    </a>
-                    
                 </v-list>
             </v-navigation-drawer>
     </div>
@@ -132,23 +134,31 @@ export default {
             login: false,
             ndrawer: false,
             items: [
-                { title: '설정' },
-                { title: '로그아웃' },
-                { title: 'Click Me' },
-                { title: 'Click Me 2' },
+                { title: '설정', to: {path: '/setting'}},
+                { title: '버전확인', to: {path:'/' }},
+                { title: '문의', to: {path:'/' } },
             ],
             menuList: [
                 {
                     title : '내 정보',
                     icon : 'mdi-information-outline',
+                    to:{
+                        path:'/about/'+this.userName()
+                    }
                 },
                 {
                     title : '설정',
                     icon : 'mdi-cog-outline',
+                    to:{
+                        path:'/setting'
+                    }   
                 },
                 {
                     title : '커뮤니티',
                     icon : 'mdi-comment-processing-outline',
+                    to:{
+                        path:'/'
+                    }   
                 }
             ],
             focus: '',
@@ -190,6 +200,11 @@ export default {
             if ([1, 19, 22].includes(parseInt(day, 10))) return ['red', '#00f']
             return false
         },
+        userName: function() {
+            this.$EventBus.$on('eventName', function(user) {
+                this.$route.params.user = user;
+            })
+        }
     },
 }
 </script>

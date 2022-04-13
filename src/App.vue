@@ -3,7 +3,7 @@
     <v-app>
       <!-- 상단 툴바 -->
             <AppToolbar />
-      <router-view @login-user="showLogin" />
+      <router-view />
             <!-- 푸터 영역 -->
             <v-footer color="info lighten-2" dark app>
                 <div class="mx-auto">
@@ -49,4 +49,5 @@ nav a {
 nav a.router-link-exact-active {
   color: #42b983;
 }
+
 </style>

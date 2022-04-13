@@ -22,13 +22,26 @@ const routes = [
     name: 'about',
     component: function () {
       return import('../views/AboutView.vue')
-    }
+    },
+    children: [{
+      path:':user',
+      component: function () {
+        return import('../views/AboutView.vue')
+      },
+    }]
   },
   {
     path: '/login',
     name: 'login',
     component: function () {
       return import('../views/LoginView.vue')
+    }
+  },
+  {
+    path: '/setting',
+    name: 'setting',
+    component: function () {
+      return import('../components/SettingPage.vue')
     }
   }
 ]
