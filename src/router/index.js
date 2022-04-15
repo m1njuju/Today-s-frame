@@ -18,17 +18,11 @@ const routes = [
     }
   },
   {
-    path: '/about',
+    path: '/about/:user',
     name: 'about',
     component: function () {
       return import('../views/AboutView.vue')
     },
-    children: [{
-      path:':user',
-      component: function () {
-        return import('../views/AboutView.vue')
-      },
-    }]
   },
   {
     path: '/login',

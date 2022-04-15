@@ -92,7 +92,7 @@
             <v-navigation-drawer absolute temporary v-model="ndrawer"
             class="pr-2">
                 <v-toolbar flat>
-                    <v-list v-model="user">
+                    <v-list >
                         <v-list-item >
                             <v-list-item-avatar>
                                 <v-icon class="grey white--text">mdi-account</v-icon>
@@ -108,7 +108,7 @@
 
                 <v-divider></v-divider>
                 <!-- 내비게이션 서랍 메뉴 리스트 -->
-                <v-list v-model="user">
+                <v-list >
                     <v-list-item
                     v-for="(menu,i) in menuList" :key="i"
                     :to="menu.to">
@@ -143,8 +143,8 @@ export default {
                     title : '내 정보',
                     icon : 'mdi-information-outline',
                     to:{
-                        path:'/about/'+this.userName()
-                    }
+                        path: ""
+                    },
                 },
                 {
                     title : '설정',
@@ -200,11 +200,12 @@ export default {
             if ([1, 19, 22].includes(parseInt(day, 10))) return ['red', '#00f']
             return false
         },
-        userName: function() {
-            this.$EventBus.$on('eventName', function(user) {
-                this.$route.params.user = user;
-            })
+        path() {
+            this.menuList[0].to.path = `/about/${this.user}`
         }
     },
+    updated() {
+        this.path()
+    }
 }
 </script>
